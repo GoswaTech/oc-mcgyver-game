@@ -4,10 +4,11 @@ from .squares import Square, Wall, Guard, Item
 
 
 class Labyrinth:
-    """
-        Full Static Object. Need to call build_labyrinth before use. The class
-        can be used to know quickely if MacGyver can move in a square or to
-        get a square by coords.
+    """Full Static Object.
+
+    Need to call build_labyrinth before use. The class can be used to
+    know quickely if MacGyver can move in a square or to get a square by
+    coords.
     """
 
     def __init__(self):
@@ -18,9 +19,7 @@ class Labyrinth:
         self.build_labyrinth()
 
     def build_labyrinth(self):
-        """
-            Docstring
-        """
+        """Docstring."""
 
         ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         laby_file = open(os.path.join(ROOT_DIR, 'laby.txt'))

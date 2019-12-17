@@ -1,7 +1,7 @@
 class Gyver:
-    """
-        Full Static Object, here we move the player with move() function.
-        Before using this class, we need to initialise it with init_gyver.
+    """Full Static Object, here we move the player with move() function.
+
+    Before using this class, we need to initialise it with init_gyver.
     """
 
     def __init__(self, gyver_coords):
@@ -14,11 +14,11 @@ class Gyver:
         self.items = {}
 
     def move(self, labyrinth, **kwargs):
-        """
-            You can move the player with the simple method
-            move(x=<int:optional>, y=<int:optional>).
-            This method verify if gyver can move in the labyrinth and return
-            the current square.
+        """You can move the player with the simple method
+        move(x=<int:optional>, y=<int:optional>).
+
+        This method verify if gyver can move in the labyrinth and return
+        the current square.
         """
         x = kwargs.pop('x', 0)
         y = kwargs.pop('y', 0)

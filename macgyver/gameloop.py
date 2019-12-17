@@ -4,23 +4,20 @@ from .drivers import Driver
 
 
 class GameLoop:
-    """
-        GameLoop is the loop of the laby game.
-    """
+    """GameLoop is the loop of the laby game."""
 
     def __init__(self, **kwargs):
         self.loop = STOP
         self.driver = kwargs.pop('driver', Driver)
 
     def perform_move(self, move):
-        """
-            Take a String and move MacGyver.
-            The move value :
-            - R : Right
-            - L : Left
-            - U : Up
-            - D : Down
-            - QUIT : Quit
+        """Take a String and move MacGyver. The move value :
+
+        - R : Right
+        - L : Left
+        - U : Up
+        - D : Down
+        - QUIT : Quit
         """
 
         if(move in ['R', 'L', 'U', 'D']):
@@ -47,9 +44,7 @@ class GameLoop:
             self.loop = LOSE
 
     def start_loop(self):
-        """
-            The loop call only the driver and perform the move.
-        """
+        """The loop call only the driver and perform the move."""
 
         self.loop = LOOP
 
