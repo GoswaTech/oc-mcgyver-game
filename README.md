@@ -3,12 +3,19 @@ Help MacMyver to escape
 
 # Launch The Game
 
-Too launch the game, you need to go in the project's root directory.
+Too launch the game, you need to go in the project's root directory :
+
 `cd ~/path/to/repo`
+
 You launch the game using this command :
+
 `pipenv run python -m macgyver pygame`
+
 If you want to play using the terminal, use this command :
+
 `pipenv run python -m macgyver terminal`
+
+Enjoy !
 
 # Gameplay
 
