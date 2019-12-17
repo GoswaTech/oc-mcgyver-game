@@ -1,5 +1,6 @@
 from .labyrinth import Labyrinth
 
+
 class Gyver:
     """
         Full Static Object, here we move the player with move() function.
@@ -32,13 +33,11 @@ class Gyver:
 
         return labyrinth.get_square(self.coords)
 
-
     def set_win(self):
         self.win = True
 
     def set_lose(self):
         self.lose = True
-
 
     def add_item(self, name):
         self.items[name] = True

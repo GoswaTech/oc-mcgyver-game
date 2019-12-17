@@ -1,5 +1,6 @@
 from random import random
 
+
 class Square:
     """
         A Square is an Area where Mac Gyver can move or not.
@@ -29,15 +30,14 @@ class Square:
     def get_type(self):
         return self.type
 
-
     def add_square(key):
         Square.squares.append(key)
-
 
     def random_pop_square():
         rand_int = int(random()*(len(Square.squares)-1))
 
         return Square.squares.pop(rand_int)
+
 
 class Wall(Square):
     """

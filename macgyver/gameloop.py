@@ -8,11 +8,11 @@ from .labyrinth import Labyrinth
 
 from .drivers import Driver
 
+
 class GameLoop:
     """
         GameLoop is the loop of the laby game.
     """
-
 
     def __init__(self, **kwargs):
         self.loop = STOP
@@ -51,7 +51,6 @@ class GameLoop:
             self.loop = WIN
         elif(self.driver.gyver.lose):
             self.loop = LOSE
-
 
     def start_loop(self):
         """

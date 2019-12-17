@@ -2,6 +2,7 @@ import os
 
 from .squares import Square, Wall, Guard, Item
 
+
 class Labyrinth:
     """
         Full Static Object. Need to call build_labyrinth before use. The class
@@ -13,7 +14,7 @@ class Labyrinth:
         self.maps = {}
         self.rows = 0
         self.columns = 0
-        
+
         self.build_labyrinth()
 
     def build_labyrinth(self):
@@ -68,10 +69,8 @@ class Labyrinth:
 
         Square.squares = None
 
-
     def get_square(self, coords):
         return self.maps[coords]
-
 
     def can_move(self, coords):
         square = self.get_square(coords)
