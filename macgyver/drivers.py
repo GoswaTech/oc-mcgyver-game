@@ -48,27 +48,32 @@ class TerminalDriver(Driver):
         'Well Done !' and 'Game Over...'
     """
 
+    def __init__(self, **kwargs):
+        gyver = kwargs.pop('gyver', None)
+        labyrinth = kwargs.pop('labyrinth', None)
+
+
     def draw_labyrinth(self):
         print('\n')
 
-        maps = Labyrinth.maps
+        maps = self.labyrinth.maps
 
         print('##########')
 
         items_string = 'Items : '
-        if(len(Gyver.items) == 0):
+        if(len(self.gyver.items) == 0):
             items_string += '---'
-        for name, taken in Gyver.items.items():
+        for name, taken in self.gyver.items.items():
             if(taken):
                 items_string += ' [' + name + '] '
         print(items_string)
         print('##########\n')
 
-        for i_row in range(Labyrinth.rows):
+        for i_row in range(self.labyrinth.rows):
             laby_string = ''
-            for i_column in range(Labyrinth.columns):
+            for i_column in range(self.labyrinth.columns):
                 square = maps[(i_column, i_row)]
-                if(Gyver.coords == square.coords):
+                if(self.gyver.coords == square.coords):
                     laby_string += '\t' + 'Gyver'
                 else:
                     laby_string += '\t' +  square.get_type()
@@ -92,16 +97,23 @@ class PygameDriver(Driver):
         Pygame Driver. Draw the labyrinth with MacGyver and wait an event.
     """
 
-    def __init__(self, fps):
+    def __init__(self, **kwargs):
         """
             fps : frame per second (int)
+            gyver : Gyver object
+            labyrinth : Labyrinth object
         """
         super().__init__()
+
+        self.PIXEL = 50
+
+        fps = kwargs.pop('fps', 30)
+        self.gyver = kwargs.pop('gyver', None)
+        self.labyrinth = kwargs.pop('labyrinth', None)
+
         pygame.init()
         pygame.display.set_caption('Mac Gyver Evasion')
         pygame.time.delay(int(1000/fps))
-
-        self.PIXEL = 50
 
         self._load_pygame()
         self._load_images()
@@ -112,7 +124,7 @@ class PygameDriver(Driver):
         """
 
         self.screen = pygame.display.set_mode(
-            (self.PIXEL*Labyrinth.columns+200, self.PIXEL*Labyrinth.rows)
+            (self.PIXEL*self.labyrinth.columns+200, self.PIXEL*self.labyrinth.rows)
         )
 
         self.background = pygame.Surface(self.screen.get_size())
@@ -134,7 +146,7 @@ class PygameDriver(Driver):
         self.floor = self._load_image(os.path.join(ROOT_DIR, 'res/laby/floor.png'))
         self.wall = self._load_image(os.path.join(ROOT_DIR, 'res/laby/wall.png'))
         self.guard = self._load_image(os.path.join(ROOT_DIR, 'res/laby/guard.png'))
-        self.gyver = self._load_image(os.path.join(ROOT_DIR, 'res/laby/gyver.png'))
+        self.gyver_img = self._load_image(os.path.join(ROOT_DIR, 'res/laby/gyver.png'))
         self.needle = self._load_image(os.path.join(ROOT_DIR, 'res/laby/needle.png'))
         self.plastic_tube = self._load_image(os.path.join(ROOT_DIR, 'res/laby/plastic_tube.png'))
         self.syringe = self._load_image(os.path.join(ROOT_DIR, 'res/laby/syringe.png'))
@@ -154,12 +166,12 @@ class PygameDriver(Driver):
 
         self.screen.blit(self.background, (0, 0))
 
-        for i_row in range(Labyrinth.rows):
-            for i_column in range(Labyrinth.columns):
+        for i_row in range(self.labyrinth.rows):
+            for i_column in range(self.labyrinth.columns):
                 coords = (i_column, i_row)
                 pixel_coords = (self.PIXEL*i_column, self.PIXEL*i_row)
 
-                square = Labyrinth.get_square(coords)
+                square = self.labyrinth.get_square(coords)
                 if(square.get_type() == 'Floor'):
                     img = [(self.floor, pixel_coords)]
                 elif(square.get_type() == 'Wall'):
@@ -181,23 +193,23 @@ class PygameDriver(Driver):
         """
             private method : draw gyver and add the numbers of items he hold
         """
-        pixel_coords = (self.PIXEL*Gyver.coords[0], self.PIXEL*Gyver.coords[1])
+        pixel_coords = (self.PIXEL*self.gyver.coords[0], self.PIXEL*self.gyver.coords[1])
 
         # draw gyver
-        self.screen.blit(self.gyver, pixel_coords)
+        self.screen.blit(self.gyver_img, pixel_coords)
 
         # draw number of items
-        label = self.font_21.render(str(len(Gyver.items)), 1, (240, 0, 0))
+        label = self.font_21.render(str(len(self.gyver.items)), 1, (240, 0, 0))
         self.screen.blit(label, pixel_coords)
 
 
     def _draw_legend(self):
-        legend = pygame.Surface((200, self.PIXEL*Labyrinth.rows))
+        legend = pygame.Surface((200, self.PIXEL*self.labyrinth.rows))
         legend.fill((64, 0, 0))
 
         color = (240, 240, 240)
 
-        num_items = str(len(Gyver.items))
+        num_items = str(len(self.gyver.items))
 
         blits = [
             (
@@ -215,7 +227,7 @@ class PygameDriver(Driver):
 
         legend.blits(blit_sequence=blits)
 
-        self.screen.blit(legend, (self.PIXEL*Labyrinth.columns, 0))
+        self.screen.blit(legend, (self.PIXEL*self.labyrinth.columns, 0))
 
 
     def draw_labyrinth(self):

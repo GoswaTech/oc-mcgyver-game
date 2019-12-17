@@ -1,0 +1,5 @@
+STOP = 'STOP'
+LOOP = 'LOOP'
+WIN = 'WIN'
+LOSE = 'LOSE'
+PAUSE = 'PAUSE'

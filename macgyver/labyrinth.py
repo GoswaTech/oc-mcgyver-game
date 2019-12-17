@@ -9,12 +9,17 @@ class Labyrinth:
         get a square by coords.
     """
 
-    maps = {}
-    rows = 0
-    columns = 0
+    def __init__(self):
+        self.maps = {}
+        self.rows = 0
+        self.columns = 0
+        
+        self.build_labyrinth()
 
-    def build_labyrinth():
-        gyver_coords = (1, 1)
+    def build_labyrinth(self):
+        """
+            Docstring
+        """
 
         ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         laby_file = open(os.path.join(ROOT_DIR, 'laby.txt'))
@@ -28,8 +33,8 @@ class Labyrinth:
                     row.append(s)
             laby.append(row)
 
-        Labyrinth.rows = len(laby)
-        Labyrinth.columns = len(laby[0])
+        self.rows = len(laby)
+        self.columns = len(laby[0])
 
         # initialise basic labyrinth
         for i_row, row in enumerate(laby):
@@ -39,14 +44,14 @@ class Labyrinth:
                 coords = (x, y)
 
                 if(square == 'w'):
-                    Labyrinth.maps[coords] = Wall(coords)
+                    self.maps[coords] = Wall(coords)
                 elif(square == 'g'):
-                    Labyrinth.maps[coords] = Guard(coords)
+                    self.maps[coords] = Guard(coords)
                 elif(square == 'p'):
-                    Labyrinth.maps[coords] = Square(coords)
-                    gyver_coords = coords
+                    self.maps[coords] = Square(coords)
+                    self.gyver_coords = coords
                 else:
-                    Labyrinth.maps[coords] = Square(coords)
+                    self.maps[coords] = Square(coords)
                     Square.add_square(coords)
 
         # place itams
@@ -59,19 +64,17 @@ class Labyrinth:
         for item in items:
             coords = Square.random_pop_square()
             name = item['name']
-            Labyrinth.maps[coords] = Item(coords, name)
+            self.maps[coords] = Item(coords, name)
 
         Square.squares = None
 
-        return gyver_coords
+
+    def get_square(self, coords):
+        return self.maps[coords]
 
 
-    def get_square(coords):
-        return Labyrinth.maps[coords]
-
-
-    def can_move(coords):
-        square = Labyrinth.get_square(coords)
+    def can_move(self, coords):
+        square = self.get_square(coords)
         if(square != None):
             can_move = square.can_move()
         else:

@@ -2,6 +2,7 @@ import os
 import sys
 import pygame
 
+from .constants import STOP, LOOP, WIN, LOSE, PAUSE
 from .gyver import Gyver
 from .labyrinth import Labyrinth
 
@@ -10,17 +11,11 @@ from .drivers import Driver
 class GameLoop:
     """
         GameLoop is the loop of the laby game.
-        The self.loop value says :
-        - 0 : stop
-        - 1 : loop running
-        - 2 : win
-        - 3 : lose
-        - 4 : pause
     """
 
 
     def __init__(self, **kwargs):
-        self.loop = 0
+        self.loop = STOP
         self.driver = kwargs.pop('driver', Driver)
 
     def perform_move(self, move):
@@ -36,26 +31,26 @@ class GameLoop:
 
         if(move in ['R', 'L', 'U', 'D']):
 
-            square = Labyrinth.get_square(Gyver.coords)
+            square = self.driver.labyrinth.get_square(self.driver.gyver.coords)
 
             if(move == 'R'):
-                square = Gyver.move(x=1)
+                square = self.driver.gyver.move(self.driver.labyrinth, x=1)
             elif(move == 'L'):
-                square = Gyver.move(x=-1)
+                square = self.driver.gyver.move(self.driver.labyrinth, x=-1)
             elif(move == 'U'):
-                square = Gyver.move(y=-1)
+                square = self.driver.gyver.move(self.driver.labyrinth, y=-1)
             elif(move == 'D'):
-                square = Gyver.move(y=1)
+                square = self.driver.gyver.move(self.driver.labyrinth, y=1)
 
-            square.after_move(gyver=Gyver())
+            square.after_move(gyver=self.driver.gyver)
 
         # end conditions
         if(move == 'QUIT'):
-            self.loop = 0
-        if(Gyver.win):
-            self.loop = 2
-        if(Gyver.lose):
-            self.loop = 3
+            self.loop = STOP
+        if(self.driver.gyver.win):
+            self.loop = WIN
+        elif(self.driver.gyver.lose):
+            self.loop = LOSE
 
 
     def start_loop(self):
@@ -63,16 +58,16 @@ class GameLoop:
             The loop call only the driver and perform the move.
         """
 
-        self.loop = 1
+        self.loop = LOOP
 
-        while self.loop == 1:
+        while self.loop == LOOP:
             self.driver.draw_labyrinth()
             move = self.driver.wait_for_move()
 
             self.perform_move(move)
 
-        if(self.loop == 2):
+        if(self.loop == WIN):
             self.driver.win_scenario()
 
-        if(self.loop == 3):
+        elif(self.loop == LOSE):
             self.driver.lose_scenario()

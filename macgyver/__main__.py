@@ -8,11 +8,13 @@ from .drivers import TerminalDriver, PygameDriver
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def main():
-    gyver_coords = Labyrinth.build_labyrinth()
-    Gyver.init_gyver(gyver_coords)
+    labyrinth = Labyrinth()
+    gyver = Gyver(labyrinth.gyver_coords)
 
-    #gameLoop = GameLoop(driver=TerminalDriver())
-    gameLoop = GameLoop(driver=PygameDriver(30))
+    #driver = TerminalDriver(gyver=gyver, labyrinth=labyrinth)
+    driver = PygameDriver(gyver=gyver, labyrinth=labyrinth, fps=30)
+
+    gameLoop = GameLoop(driver=driver)
 
     gameLoop.start_loop()
     #gameLoop.end_game()
@@ -21,3 +23,6 @@ def main():
 
 if(__name__ == "__main__"):
     main()
+
+#pipenv install flake8 --dev
+#pipenv run flake8
