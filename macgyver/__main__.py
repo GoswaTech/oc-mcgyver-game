@@ -1,4 +1,5 @@
 import os
+import sys
 
 from .gyver import Gyver
 from .labyrinth import Labyrinth
@@ -12,8 +13,15 @@ def main():
     labyrinth = Labyrinth()
     gyver = Gyver(labyrinth.gyver_coords)
 
-    #driver = TerminalDriver(gyver=gyver, labyrinth=labyrinth)
-    driver = PygameDriver(gyver=gyver, labyrinth=labyrinth, fps=30)
+    if(len(sys.argv) > 1):
+
+        if(sys.argv[1] == 'terminal'):
+            driver = TerminalDriver(gyver=gyver, labyrinth=labyrinth)
+        elif(sys.argv[1] == 'pygame'):
+            driver = PygameDriver(gyver=gyver, labyrinth=labyrinth, fps=30)
+        else:
+            print('Invalid command')
+            return 0
 
     gameLoop = GameLoop(driver=driver)
 

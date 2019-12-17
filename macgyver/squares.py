@@ -65,7 +65,7 @@ class Item(Square):
 
     def after_move(self, **kwargs):
         gyver = kwargs.pop('gyver', None)
-        if(gyver != None):
+        if gyver is not None:
             gyver.add_item(self.type)
             self.taken = True
 
@@ -85,7 +85,7 @@ class Guard(Square):
 
     def after_move(self, **kwargs):
         gyver = kwargs.pop('gyver', None)
-        if(gyver != None):
+        if gyver is not None:
 
             if(len(gyver.items) == 4):
                 gyver.set_win()

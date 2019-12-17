@@ -74,7 +74,7 @@ class Labyrinth:
 
     def can_move(self, coords):
         square = self.get_square(coords)
-        if(square != None):
+        if square is not None:
             can_move = square.can_move()
         else:
             return False

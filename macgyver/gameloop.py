@@ -1,10 +1,4 @@
-import os
-import sys
-import pygame
-
-from .constants import STOP, LOOP, WIN, LOSE, PAUSE
-from .gyver import Gyver
-from .labyrinth import Labyrinth
+from .constants import STOP, LOOP, WIN, LOSE
 
 from .drivers import Driver
 

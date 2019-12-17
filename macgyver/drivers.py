@@ -1,9 +1,6 @@
 import os
 import pygame
 
-from .labyrinth import Labyrinth
-from .gyver import Gyver
-
 
 class Driver:
     """
@@ -50,8 +47,8 @@ class TerminalDriver(Driver):
     """
 
     def __init__(self, **kwargs):
-        gyver = kwargs.pop('gyver', None)
-        labyrinth = kwargs.pop('labyrinth', None)
+        self.gyver = kwargs.pop('gyver', None)
+        self.labyrinth = kwargs.pop('labyrinth', None)
 
     def draw_labyrinth(self):
         print('\n')
@@ -120,9 +117,11 @@ class PygameDriver(Driver):
         """
             private method : load pygame environment
         """
+        x_size = self.PIXEL*self.labyrinth.columns+200
+        y_size = self.PIXEL*self.labyrinth.rows
 
         self.screen = pygame.display.set_mode(
-            (self.PIXEL*self.labyrinth.columns+200, self.PIXEL*self.labyrinth.rows)
+            (x_size, y_size)
         )
 
         self.background = pygame.Surface(self.screen.get_size())

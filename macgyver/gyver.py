@@ -1,6 +1,3 @@
-from .labyrinth import Labyrinth
-
-
 class Gyver:
     """
         Full Static Object, here we move the player with move() function.
